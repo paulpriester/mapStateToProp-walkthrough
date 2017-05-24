@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import Task from "./Task";
 
 class Tasks extends Component {
   render() {
-    const tasks = this.props.tasks.map((task, index) => <li key={index}>{task}</li>)
+    const tasks = this.props.tasks.map((task, index) => <Task key={index} task={task} />)
     return (
       <div>
         <ul>
-          {tasks}
+        {tasks}
         </ul>
       </div>
     )

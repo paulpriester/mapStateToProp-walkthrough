@@ -35,8 +35,7 @@ class UserInput extends Component {
 
   render() {
     // Add the debugger here to find out the props that this component currently has.
-    debugger
-
+    
     return(
       <form onSubmit={(event) => this.handleOnSubmit(event)}>
       <p>
