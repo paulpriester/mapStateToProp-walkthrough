@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 
+// extract the functions that we are going to use for dispatch.
 import { deleteTask, updateTask } from "../actions/TaskAction";
 
 class Task extends Component{
@@ -16,7 +17,9 @@ class Task extends Component{
 
 handleClick(event){
   event.preventDefault();
-
+  // replace our original dispatch method with deleteTask.  It is made
+  // available to us as a prop do to the bindActionCreators in our
+  // mapDispatchToProps function.
   this.props.deleteTask( this.props.task.id)
 }
 
@@ -34,7 +37,9 @@ handleChange(event){
 
 handleSubmit(event){
    event.preventDefault();
-
+   // replace our original dispatch method with deleteTask.  It is made
+   // available to us as a prop do to the bindActionCreators in our
+   // mapDispatchToProps function.
    this.props.updateTask(this.state.edit, this.props.task.id)
 
    this.setState({
@@ -60,6 +65,9 @@ handleSubmit(event){
   }
 }
 
+
+// 2 arguments are added below to accomodate for the two functions we are binding to props
+// in this component
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     deleteTask,
