@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+
+import { deleteTask, updateTask } from "../actions/TaskAction";
 
 class Task extends Component{
   constructor(){
@@ -14,11 +17,7 @@ class Task extends Component{
 handleClick(event){
   event.preventDefault();
 
-  this.props.dispatch({
-    type: "DELETE_TODO",
-    task: this.props.task.task,
-    id: this.props.task.id
-  })
+  this.props.deleteTask( this.props.task.id)
 }
 
 handleEditClick(event){
@@ -36,12 +35,8 @@ handleChange(event){
 handleSubmit(event){
    event.preventDefault();
 
-   this.props.dispatch({
-     type: "UPDATE_TODO",
-     task: this.state.edit,
-     id: this.props.task.id
+   this.props.updateTask(this.state.edit, this.props.task.id)
 
-   })
    this.setState({
      update: false
    })
@@ -64,4 +59,12 @@ handleSubmit(event){
     )
   }
 }
-export default connect(undefined)(Task)
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    deleteTask,
+    updateTask
+  }, dispatch);
+}
+
+export default connect(undefined, mapDispatchToProps )(Task)
