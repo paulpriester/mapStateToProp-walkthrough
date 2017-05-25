@@ -1,11 +1,15 @@
 import React, { Component } from "react";
-// we are new requiring connect.  Essentially, it allows our component to have
-// access to the state and have the ability to manipulate the information using
-// an outside function.
 import { connect } from 'react-redux';
+import { addTask } from '../actions/TaskAction';
 
-// Taking away export from this class.
-class UserInput extends Component {
+// Using bindActionCreators allows us make a dispatch just from using an action.
+// Similar to binding a variable to an object.
+import { bindActionCreators } from 'redux';
+
+
+
+
+export class UserInput extends Component {
 
   constructor(props) {
     super(props);
@@ -21,21 +25,18 @@ class UserInput extends Component {
     });
   }
 
+
   handleOnSubmit(event) {
     event.preventDefault();
 
-    // change this.props.store.dispact to this.props.dispatch because we now have access to
-    // the createStore dispatch method.
-    this.props.dispatch({
-
-      type: "ADD_TASK",
-      task: this.state.task
-    })
+    // We can take away dispatch and just use addTask here with the argument.
+    this.props.addTask(this.state.task)
   }
 
+
+
   render() {
-    // Add the debugger here to find out the props that this component currently has.
-    
+
     return(
       <form onSubmit={(event) => this.handleOnSubmit(event)}>
       <p>
@@ -50,9 +51,19 @@ class UserInput extends Component {
     )
   }
 }
-// Using default allows us to not have to {} in the App.js when importing this component.
-// We do not have a function such as mapStateToProps. The reason being... we are only dispatching
-// data to our reducer. HOwever, connect() is still looking for a first function as an argument.
-// in that case, we enter undefined plus the current component class.
-// Now we have access to dispatch as a prop.
-export default connect(undefined)(UserInput)
+
+// Below we are taking in the component which is in our action file,
+// and we are making it available to this component as a prop.
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    addTask,
+  }, dispatch);
+}
+
+
+
+// our connect method takes in a function for mapping the state to props.
+// the second argument for connect() is used for mapping Dispatch to props.
+// This means that if there are any actions we would like to pass into this component,
+// we can make that action available to this component as a prop
+export default connect(undefined, mapDispatchToProps)(UserInput)
