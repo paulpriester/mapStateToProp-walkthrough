@@ -3,7 +3,15 @@ import React, { Component } from "react";
 // access to the state and have the ability to manipulate the information using
 // an outside function.
 import { connect } from 'react-redux';
+import { addTask } from '../actions/TaskAction';
+import { bindActionCreators } from 'redux';
 
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+      addTask,
+    }, dispatch);
+  }
 // Taking away export from this class.
 class UserInput extends Component {
 
@@ -26,12 +34,8 @@ class UserInput extends Component {
 
     // change this.props.store.dispact to this.props.dispatch because we now have access to
     // the createStore dispatch method.
-    this.props.dispatch({
-
-      type: "ADD_TASK",
-      task: this.state.task
-    })
-  }
+    this.props.addTask(this.state.task)
+    }
 
   render() {
     // Add the debugger here to find out the props that this component currently has.
@@ -55,4 +59,4 @@ class UserInput extends Component {
 // data to our reducer. HOwever, connect() is still looking for a first function as an argument.
 // in that case, we enter undefined plus the current component class.
 // Now we have access to dispatch as a prop.
-export default connect(undefined)(UserInput)
+export default connect(undefined, mapDispatchToProps)(UserInput)
