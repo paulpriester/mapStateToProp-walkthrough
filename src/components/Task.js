@@ -38,7 +38,6 @@ handleSubmit(event){
 
    this.props.dispatch({
      type: "UPDATE_TODO",
-     task: this.state.edit,
      id: this.props.task.id
 
    })
